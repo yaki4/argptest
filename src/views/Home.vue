@@ -1,18 +1,33 @@
-<template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+<template lang="pug">
+  .home
+    a-scene
+      a-camera(gps-camera, rotation-header)
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import 'aframe'
 export default {
   name: 'home',
+  data () {
+    return {
+      places: null
+    }
+  },
   components: {
-    HelloWorld
+  },
+  apollo: {
+    query: require('@/apollo/queries/places.gql'),
+    variables () {
+      return {
+        id: 'saguenay-lac-saint-jean-saguenay'
+      }
+    },
+    update (data) {
+      return data.zone
+    }
+  },
+  mounted () {
+
   }
 }
 </script>

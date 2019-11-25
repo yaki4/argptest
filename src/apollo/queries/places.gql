@@ -1,0 +1,7 @@
+query zone($id: ID!) {
+  zone(id: $id) {
+    id titre activites{
+      id titre latitude longitude
+    }
+  }
+}
