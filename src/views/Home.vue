@@ -1,11 +1,10 @@
 <template lang="pug">
   .home
-    a-scene
+    a-scene(id='scene', vr-mode-ui="enabled: false", embedded, raycaster="objects: [gps-entity-place];")
       a-camera(gps-camera, rotation-header)
 </template>
 
 <script>
-import 'aframe'
 export default {
   name: 'home',
   data () {
@@ -16,18 +15,36 @@ export default {
   components: {
   },
   apollo: {
-    query: require('@/apollo/queries/places.gql'),
-    variables () {
-      return {
+    places: {
+      query: require('@/apollo/queries/places.graphql'),
+      variables: {
         id: 'saguenay-lac-saint-jean-saguenay'
+      },
+      update (data) {
+        this.$nextTick(() => {
+          this.renderPlaces()  
+        })        
+        return data.zone
       }
-    },
-    update (data) {
-      return data.zone
     }
   },
   mounted () {
-
-  }
+  },
+  methods: {
+    renderPlaces () {
+      let scene = document.querySelector('a-scene')
+      this.places.activites.forEach(element => {
+        const lat = element.lat
+        const long = element.long
+        const icon = document.createElement('a-image')
+        icon.setAttribute('gps-entity-place', `latitude: ${lat}; longitude: ${long}`)
+        icon.setAttribute('name', element.titre)
+        icon.setAttribute('src', '../img/icons/logo.png')
+        icon.setAttribute('scale', '20, 20')
+        icon.addEventListener('loaded', () => window.dispatchEvent(new CustomEvent('gps-entity-place-loaded')))
+        scene.appendChild(icon)
+      })
+    }    
+  },
 }
 </script>
