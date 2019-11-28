@@ -8741,16 +8741,19 @@ AFRAME.registerComponent('gps-camera', {
             return;
         }
 
-        this.loader = document.createElement('DIV');
+        this.loader = document.createElement('div');
         this.loader.classList.add('arjs-loader');
-        document.body.appendChild(this.loader);
+        document.getElementById('home').appendChild(this.loader);
 
         window.addEventListener('gps-entity-place-added', function() {
             // if places are added after camera initialization is finished
             if (this.originCoords) {
                 window.dispatchEvent(new CustomEvent('gps-camera-origin-coord-set'));
                 console.debug('gps-camera-origin-coord-set');
-            }
+						}
+						console.log('le loader', this.loader)
+						console.log(document.getElementById('home'))
+            // document.getElementById('home').removeChild(this.loader)
         }.bind(this));
 
         this.lookControls = this.el.components['look-controls'];

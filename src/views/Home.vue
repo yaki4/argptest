@@ -1,7 +1,7 @@
 <template lang="pug">
-  .home
-    a-scene(id='scene', vr-mode-ui="enabled: false", embedded, raycaster="objects: [gps-entity-place];")
-      a-camera(gps-camera, rotation-header)
+  .home(id='home')
+    a-scene(id='scene', cursor='rayOrigin: mouse; fuse: true; fuseTimeout: 0;', vr-mode-ui="enabled: false", embedded, raycaster="objects: [gps-entity-place];", arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;')
+      a-camera(gps-camera="minDistance: 20;" , rotation-header)
 </template>
 
 <script>
